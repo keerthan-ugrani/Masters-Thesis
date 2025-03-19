@@ -1,0 +1,190 @@
+% This template was initially provided by Dulip Withanage.
+% Modifications for the database systems research group
+% were made by Conny Junghans,  Jannik StrÃ¶tgen and Michael Gertz
+
+\documentclass[
+     12pt,         % font size
+     a4paper,      % paper format
+     BCOR10mm,     % binding correction
+     DIV14,        % stripe size for margin calculation
+%     liststotoc,   % table listing in toc
+%     bibtotoc,     % bibliography in toc
+%     idxtotoc,     % index in toc
+%     parskip       % paragraph skip instad of paragraph indent
+     ]{scrreprt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% PACKAGES:
+
+% Use German :
+\usepackage[ngerman]{babel}
+% Input and font encoding
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+% Index-generation
+\usepackage{makeidx}
+% Einbinden von URLs:
+\usepackage{url}
+% Special \LaTex symbols (e.g. \BibTeX):
+%\usepackage{doc}
+% Include Graphic-files:
+\usepackage{graphicx}
+% Include doc++ generated tex-files:
+%\usepackage{docxx}
+% Include PDF links
+%\usepackage[pdftex, bookmarks=true]{hyperref}
+
+% Fuer anderthalbzeiligen Textsatz
+\usepackage{setspace}
+\usepackage{amsmath}
+% hyperrefs in the documents
+\usepackage[bookmarks=true,colorlinks,pdfpagelabels,pdfstartview = FitH,bookmarksopen = true,bookmarksnumbered = true,linkcolor = black,plainpages = false,hypertexnames = false,citecolor = black,urlcolor=black]{hyperref} 
+%\usepackage{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% OTHER SETTINGS:
+
+% Pagestyle:
+\pagestyle{headings}
+
+% Choose language
+\newcommand{\setlang}[1]{\selectlanguage{#1}\nonfrenchspacing}
+
+
+\begin{document}
+
+% TITLE:
+\pagenumbering{roman} 
+\begin{titlepage}
+
+
+\vspace*{1cm}
+\begin{center}
+\vspace*{3cm}
+\textbf{ 
+\Large Heidelberg University\\
+\smallskip
+\Large Data and Computer Science\\
+\smallskip
+}
+
+\vspace{3cm}
+
+\textbf{\large Master-Arbeit} % Bachelor-Arbeit 
+
+\vspace{0.5\baselineskip}
+{\huge
+\textbf{Research and Development of NMOps (Numerical Model Operations)}
+}
+\end{center}
+
+\vfill 
+
+{\large
+\begin{tabular}[l]{ll}
+Name: & Keerthan Ugrani\\
+Matrikelnummer: & 3770219\\
+Betreuer: & Prof. Dr. Ekaterina Kostina, Prof. Dr. Nima, 
+\\ & and Shuldham Peard\\
+Datum der Abgabe: & \today
+\end{tabular}
+}
+
+\end{titlepage}
+
+\onehalfspacing
+
+\thispagestyle{empty}
+
+\vspace*{100pt}
+\noindent
+Ich versichere, dass ich diese Master-Arbeit selbstständig verfasst und nur die angegebenen
+Quellen und Hilfsmittel verwendet habe und die Grundsätze und
+Empfehlungen ``Verantwortung in der Wissenschaft'' der Universität Heidelberg beachtet wurden. 
+
+\vspace*{50pt}
+\noindent
+
+\underline{\phantom{mmmmmmmmmmmmmmmmmmmm}}
+
+\medskip
+\noindent 
+Abgabedatum: \today
+\newpage
+
+% Add a brief summary of your topic and contributions (Zusammenfassung) in German *and* in English:
+\chapter*{Zusammenfassung}
+\input{zusammenfassung}
+\newpage
+
+\chapter*{Abstract}
+\input{abstract}
+\newpage
+
+% MAIN PART:
+% Table of contents (Inhaltsverzeichnis)
+\tableofcontents
+\cleardoublepage
+\pagenumbering{arabic} 
+
+% List of figures (Abbildungsverzeichnis):
+%\listoffigures
+% List of tables (Tabellenverzeichnis):
+%\listoftables
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Here, the actual content of your thesis begins
+% You can either put all the text here or use individual files to store the chapters of your thesis.
+% Below are templates for both alternatives.
+
+\chapter{Introduction}\label{intro}
+\input{introduction}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\chapter{Fundamentals and Related Works}
+\label{chap:grundlagen}
+\input{fundamentals_and_related_work}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+% Alternative: put content in separate files
+% Check the difference between including these files using \input{filename} and \include{filename} and see which one you like better
+%\chapter{Einleitung}\label{intro}
+%\input{introduction}
+%
+%\chapter{Voraussetzungen}\label{bg}
+%\input{background}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\chapter{My Contribution}
+\label{chap:main}
+\input{my_contribution}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Experimental Evaluation}
+\label{chap:eval}
+\input{experimental_evaluation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Conclusion}
+\label{chap:concl}
+\input{conclusion}
+% References (Literaturverzeichnis):
+% a) Style (with abbreviations: use alpha):
+% see
+% https://de.wikibooks.org/wiki/LaTeX-W%C3%B6rterbuch:_bibliographystyle
+% for the different formats and styles
+
+\bibliographystyle{apalike}
+% b) The File:
+\bibliography{references}
+
+\end{document}
