@@ -1,0 +1,172 @@
+{
+    "B0005": {
+        "ambient_temp_celsius": 24,
+        "cutoff_voltage": 2.7,
+        "eol_capacity": 1.4
+    },
+    "B0006": {
+        "ambient_temp_celsius": 24,
+        "cutoff_voltage": 2.5,
+        "eol_capacity": 1.4
+    },
+    "B0007": {
+        "ambient_temp_celsius": 24,
+        "cutoff_voltage": 2.2,
+        "eol_capacity": 1.4
+    },
+    "B0018": {
+        "ambient_temp_celsius": 24,
+        "cutoff_voltage": 2.5,
+        "eol_capacity": 1.4
+    },
+    "B0025": {
+        "ambient_temp_celsius": 24,
+        "cutoff_voltage": 2.0,
+        "eol_capacity": 1.4
+    },
+    "B0026": {
+        "ambient_temp_celsius": 24,
+        "cutoff_voltage": 2.2,
+        "eol_capacity": 1.4
+    },
+    "B0027": {
+        "ambient_temp_celsius": 24,
+        "cutoff_voltage": 2.5,
+        "eol_capacity": 1.4
+    },
+    "B0028": {
+        "ambient_temp_celsius": 24,
+        "cutoff_voltage": 2.7,
+        "eol_capacity": 1.4
+    },
+    "B0029": {
+        "ambient_temp_celsius": 43,
+        "cutoff_voltage": 2.0,
+        "eol_capacity": 1.4
+    },
+    "B0030": {
+        "ambient_temp_celsius": 43,
+        "cutoff_voltage": 2.2,
+        "eol_capacity": 1.4
+    },
+    "B0031": {
+        "ambient_temp_celsius": 43,
+        "cutoff_voltage": 2.5,
+        "eol_capacity": 1.4
+    },
+    "B0032": {
+        "ambient_temp_celsius": 43,
+        "cutoff_voltage": 2.7,
+        "eol_capacity": 1.4
+    },
+    "B0033": {
+        "ambient_temp_celsius": 24,
+        "cutoff_voltage": 2.0,
+        "eol_capacity": 1.6
+    },
+    "B0034": {
+        "ambient_temp_celsius": 24,
+        "cutoff_voltage": 2.2,
+        "eol_capacity": 1.6
+    },
+    "B0036": {
+        "ambient_temp_celsius": 24,
+        "cutoff_voltage": 2.7,
+        "eol_capacity": 1.6
+    },
+    "B0038": {
+        "ambient_temp_celsius": 24,
+        "cutoff_voltage": 2.2,
+        "eol_capacity": 1.6
+    },
+    "B0039": {
+        "ambient_temp_celsius": 24,
+        "cutoff_voltage": 2.5,
+        "eol_capacity": 1.6
+    },
+    "B0040": {
+        "ambient_temp_celsius": 24,
+        "cutoff_voltage": 2.7,
+        "eol_capacity": 1.6
+    },
+    "B0041": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.0,
+        "eol_capacity": 1.4
+    },
+    "B0042": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.2,
+        "eol_capacity": 1.4
+    },
+    "B0043": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.5,
+        "eol_capacity": 1.4
+    },
+    "B0044": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.7,
+        "eol_capacity": 1.4
+    },
+    "B0045": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.0,
+        "eol_capacity": 1.4
+    },
+    "B0046": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.2,
+        "eol_capacity": 1.4
+    },
+    "B0047": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.5,
+        "eol_capacity": 1.4
+    },
+    "B0048": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.7,
+        "eol_capacity": 1.4
+    },
+    "B0049": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.0,
+        "eol_capacity": 1.4
+    },
+    "B0050": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.2,
+        "eol_capacity": 1.4
+    },
+    "B0051": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.5,
+        "eol_capacity": 1.4
+    },
+    "B0052": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.7,
+        "eol_capacity": 1.4
+    },
+    "B0053": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.0,
+        "eol_capacity": 1.4
+    },
+    "B0054": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.2,
+        "eol_capacity": 1.4
+    },
+    "B0055": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.5,
+        "eol_capacity": 1.4
+    },
+    "B0056": {
+        "ambient_temp_celsius": 4,
+        "cutoff_voltage": 2.7,
+        "eol_capacity": 1.4
+    }
+}
