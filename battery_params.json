@@ -129,26 +129,6 @@
         "cutoff_voltage": 2.7,
         "eol_capacity": 1.4
     },
-    "B0049": {
-        "ambient_temp_celsius": 4,
-        "cutoff_voltage": 2.0,
-        "eol_capacity": 1.4
-    },
-    "B0050": {
-        "ambient_temp_celsius": 4,
-        "cutoff_voltage": 2.2,
-        "eol_capacity": 1.4
-    },
-    "B0051": {
-        "ambient_temp_celsius": 4,
-        "cutoff_voltage": 2.5,
-        "eol_capacity": 1.4
-    },
-    "B0052": {
-        "ambient_temp_celsius": 4,
-        "cutoff_voltage": 2.7,
-        "eol_capacity": 1.4
-    },
     "B0053": {
         "ambient_temp_celsius": 4,
         "cutoff_voltage": 2.0,
