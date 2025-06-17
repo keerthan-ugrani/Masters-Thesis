@@ -18,12 +18,18 @@
 % PACKAGES:
 
 % Use German :
-\usepackage[ngerman]{babel}
+\usepackage[english]{babel}
 % Input and font encoding
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{bm}
+\usepackage{booktabs}
 % Index-generation
 \usepackage{makeidx}
+\usepackage{gensymb}
 % Einbinden von URLs:
 \usepackage{url}
 % Special \LaTex symbols (e.g. \BibTeX):
@@ -76,7 +82,7 @@
 
 \vspace{0.5\baselineskip}
 {\huge
-\textbf{Research and Development of NMOps (Numerical Model Operations)}
+\textbf{Research and Development of NMOps (Numerical Model Operations) which enables the scientific methods for optimization, automation, and lifecycle management}
 }
 \end{center}
 
@@ -86,8 +92,8 @@
 \begin{tabular}[l]{ll}
 Name: & Keerthan Ugrani\\
 Matrikelnummer: & 3770219\\
-Betreuer: & Prof. Dr. Ekaterina Kostina, Prof. Dr. Nima, 
-\\ & and Shuldham Peard\\
+Betreuer: & Prof. Dr. Ekaterina Kostina, Prof. Dr. Nima  
+\\ & Taherinejad, and Shuldham Peard\\
 Datum der Abgabe: & \today
 \end{tabular}
 }
@@ -128,6 +134,10 @@ Abgabedatum: \today
 \tableofcontents
 \cleardoublepage
 \pagenumbering{arabic} 
+\listoffigures
+\cleardoublepage
+\listoftables
+\cleardoublepage
 
 % List of figures (Abbildungsverzeichnis):
 %\listoffigures
@@ -144,7 +154,7 @@ Abgabedatum: \today
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-
+\newpage
 \chapter{Fundamentals and Related Works}
 \label{chap:grundlagen}
 \input{fundamentals_and_related_work}

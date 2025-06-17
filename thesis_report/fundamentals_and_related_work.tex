@@ -1,7 +1,54 @@
-In this chapter, we will discuss the fundamentals and also survey the literature of existing methodologies which help us in formulating and implementing the objectives as mentioned in \ref{intro}. From the chpater \ref{intro}, we know that accurate State of Health (SOH) estimation is vital for the safe and efficient operation of lithium-ion batteries, particularly in electric vehicles (EVs) and energy storage systems. Precise SOH assessment enables effective maintenance strategies, preventing unexpected failures and optimizing operational efficiency. As discussed, there are many approaches in estimating the SOH of the batteries and can be categorized as Direct Measurement methods, Model-Based Methods, Data-Driven Methods and Hybrid Methods. These models require an automated life-cycle management for deploying BMS in the cloud, so that it can handle lots of data, process it, and keep everything secure. This setup can integrate with other systems and models, making it easier to manage large-scale battery operations, which is unexpected for those used to on-premises solutions. We will try to explore various ways and current state of research based on the limitations of semi-empirical model as stated in chapter \ref{intro}. Firstly, we will go through the fundamentals of current SOH estimation semi-empirical model and list down some of the drawbacks that has to be mitigated or taken care of while deploying it to the cloud based BMS. 
+In this chapter, we present the theoretical background and review existing literature relevant to developing and implementing the objectives outlined in Chapter~\ref{intro}. As established earlier, the accurate estimation of the State of Health (SOH) is critical for ensuring lithium-ion batteries' safety, reliability, and performance, particularly within electric vehicles (EVs) and large-scale energy storage systems. Reliable SOH estimation underpins effective maintenance strategies and helps avoid unexpected system failures, improving the overall operational lifecycle.
+
+Existing SOH estimation methodologies can be broadly classified into four categories: direct measurement techniques, model-based approaches, data-driven methods, and hybrid models. Each class of methods offers trade-offs in terms of accuracy, complexity, interpretability, and computational demands. For real-world applications, especially those involving cloud-based Battery Management Systems (BMS), there is an increasing need for frameworks that support scalable, secure, and automated lifecycle management of these estimation models.
+
+This chapter examines existing approaches' capabilities and limitations, focusing on semi-empirical models and their suitability for integrating modern, cloud-enabled infrastructures. We begin by outlining the foundational concepts of SOH modeling, followed by a critical analysis of the challenges associated with deploying semi-empirical models in dynamic, large-scale environments.
+
+\section{Fundamentals of Battery Management System}
+
+A Battery Management System (BMS) is the central control unit responsible for monitoring and maintaining lithium-ion batteries' performance, safety, and reliability. It performs a wide range of functions at the cell and pack level to ensure optimal operation throughout the battery's lifecycle. Key functionalities of a BMS include:
+
+\begin{itemize}
+    \item \textbf{State of Charge (SOC) Estimation:} Determines the remaining charge in the battery as a percentage of its total capacity under current conditions. This metric is crucial for estimating available driving range in electric vehicles and managing charging and discharging cycles \cite{wevj-12-00120-v2}.
+
+    \item \textbf{State of Health (SOH) Estimation:} Evaluates the battery's condition relative to its original capacity, providing insight into aging and remaining useful life. Accurate SOH tracking is essential for reliable and safe operation \cite{wevj-12-00120-v2}.
+
+    \item \textbf{Cell Monitoring:} Continuously observes key cell-level parameters such as voltage, temperature, and current, enabling real-time supervision and control\\ \cite{wevj-12-00120-v2}.
+
+    \item \textbf{Cell Balancing:} Ensures uniform charge levels across all cells in the battery pack. Imbalances can cause premature capacity loss or system failure. Balancing strategies include passive (dissipative) and active (redistributive) methods \cite{wevj-12-00120-v2}.
+
+    \item \textbf{Thermal Management:} Monitors cell temperatures and activates thermal control mechanisms to prevent overheating. Uniform temperature distribution is crucial for avoiding accelerated degradation. Thermal control can be implemented through internal or external cooling systems\\ \cite{wevj-12-00120-v2,energies-18-00342-v2}.
+
+    \item \textbf{Voltage and Current Sensing:} Precisely measures individual cell voltages and pack current, integral to SOC and SOH estimations and safety monitoring \cite{wevj-12-00120-v2}.
+
+    \item \textbf{Safety Management:} Detects and mitigates hazardous conditions such as overvoltage, undervoltage, overcurrent, short circuits, thermal runaway, and system-level faults \cite{wevj-12-00120-v2}.
+
+    \item \textbf{Communication Interface:} Facilitates real-time data exchange between the battery and other vehicle or system components (e.g., power electronics, vehicle control units), enabling coordinated system-level control \cite{wevj-12-00120-v2}.
+
+    \item \textbf{Computational Capabilities:} Executes core BMS algorithms, including estimation, diagnostics, and control logic, often requiring high-speed and accurate computation \cite{wevj-12-00120-v2}.
+
+    \item \textbf{Data Logging and Storage:} Records operational metrics for performance analysis, fault detection, and predictive maintenance \cite{wevj-12-00120-v2}.
+
+    \item \textbf{Power Flow Regulation:} Manages energy input and output to minimize losses, improve efficiency, and support stable operation \cite{wevj-12-00120-v2}.
+
+    \item \textbf{Charge/Discharge Control:} Oversees the charging and discharging process to maintain optimal efficiency, longevity, and safety boundaries \cite{wevj-12-00120-v2}.
+
+    \item \textbf{State of Power (SOP):} Estimates the instantaneous power that can be safely delivered or absorbed by the battery \cite{wevj-12-00120-v2}.
+
+    \item \textbf{State of Safety (SOS):} Continuously evaluates operational safety by tracking deviations in key variables such as voltage, temperature, and current\\ \cite{wevj-12-00120-v2}.
+
+    \item \textbf{Depth of Discharge (DOD):} Represents the percentage of discharged capacity relative to the total capacity, used to evaluate usage patterns and aging\\ \cite{wevj-12-00120-v2}.
+
+    \item \textbf{State of Function (SOF):} Indicates the battery’s ability to perform under given operational conditions by aggregating several internal state estimations\\ \cite{wevj-12-00120-v2}.
+
+    \item \textbf{End of Discharge (EOD):} Refers to the point at which the battery has reached its minimum allowable SOC and can no longer provide useful power\\ \cite{wevj-12-00120-v2}.
+
+    \item \textbf{Galvanic Isolation:} Provides electrical separation between high-voltage and low-voltage domains to ensure user and system safety \cite{wevj-12-00120-v2}.
+\end{itemize}
+
 
 \section{SOH Semi-Empirical Model}
-In semi-empirical model, the behavior of the system is captured through a combination of theoretical insights and empirical data. These models are often used in cases where fully theoretical or purely empirical approaches are insufficient. Here’s how the listed factors relate to the semi-empirical cyclic aging model:
+A semi-empirical model captures the system's behavior through theoretical insights and empirical data. These models are often used in cases where fully theoretical or purely empirical approaches are insufficient. Here’s how the listed factors relate to the semi-empirical cyclic aging model:
 
 \begin{itemize}
     \item \textbf{Temperature Factor}:
@@ -36,147 +83,186 @@ In semi-empirical model, the behavior of the system is captured through a combin
     $a$, $b$, $c$ and $d$ are constant co-efficients.
 \end{itemize}
 
-However, these factors are insufficient to capture all the concepts of batteries and there might be other external factors and also drawbacks in deriving these factors. Some of the drawbacks that can be listed are:
-\begin{itemize}
-    \item \textbf{Non-linear behavior of the model}: As the empirical components are derived from data that may reflect complex, real-world interactions. Theoretical parts of the model may assume linearity, but deviations in empirical data introduce non-linearity, leading to discrepancies between predicted and actual results, especially under extreme conditions. \cite{pr8111462}
-    \item \textbf{Data contains noise and there is no mechanism to handle this sudden drift in the data}: The sudden, unexpected changes in the data can significantly affect the performance of semi-empirical models. As semi-empirical model lacks advanced mechanisms to adapt dynamically, unexpected data shifts may lead to poor predictions and errors. \cite{s21248304}
-    \item \textbf{Models rely on pre-defined parameters}:\cite{doi:10.1021/ie990486w} Semi-empirical model depends on fixed parameters that are tuned based on historical data (eg: aging coefficients in material degradation models). If the conditions change beyond what was used to derive these parameters, the model’s accuracy can degrade over time.
-    \item \textbf{No real-time feedback loops to enhance operational efficiencies}: Semi-empirical model is static and lack mechanisms for real-time feedback and continuous learning. In dynamic environments such as cloud this absence reduces the model’s ability to adapt, leading to operational inefficiencies over time. \\ \cite{7462263}\cite{8633871}
-\end{itemize}
 \section{Machine Learning Operations (MLOps) Framework}
-MLOps, or Machine Learning Operations, is a way to manage machine learning models from start to finish, especially for battery management systems (BMS) in the cloud. It helps handle data, train models, deploy them, and keep them updated, ensuring they work well in real-world use.
+\label{MLOPS}  
 
-\textbf{MLOPs framework for Automated Lifecycle Management}:
-MLOPs facilitate the entire lifecycle of the Machine Learning Models, as follows:
+Machine Learning Operations (MLOps) refers to a set of practices and tools that enable the development, deployment, monitoring, and maintenance of machine learning models in scalable and automated environments. Within cloud-based Battery Management Systems (BMS), MLOps provides a systematic approach to managing the full lifecycle of SOH estimation models—from data acquisition to continuous validation—ensuring high performance, adaptability, and reliability under dynamic operating conditions.
+
+\subsection*{MLOps for Automated Lifecycle Management}
+
+An effective MLOps pipeline streamlines the end-to-end process of managing machine learning models. The following components constitute the key stages of such a framework:
 
 \begin{itemize}
-    \item \textbf{Data Ingestion}: This phase encompasses the systematic collection of data utilizing diverse frameworks and formats, potentially incorporating synthetic data generation or enrichment techniques to enhance dataset quality.
-    \item \textbf{Exploration and Validation}: This stage involves data profiling to elucidate the content and structural characteristics of the dataset, yielding a comprehensive set of metadata. Additionally, it employs user-specified validation procedures to identify anomalies and ensure data integrity.
-    \item \textbf{Data Cleaning}: This process entails the reformatting of selected attributes and the rectification of identified inaccuracies within the dataset.
-    \item \textbf{Data Labeling}: Within this operation, each data element is methodically categorized and assigned to a designated class or group.
-    \item \textbf{Data Splitting}: This step involves segmenting the dataset into distinct subsets—namely, training, validation, and testing sets—to facilitate subsequent machine learning model development.
-    \item \textbf{Model Training}: This phase applies machine learning algorithms to the training dataset to construct a predictive model, incorporating feature engineering and hyperparameter optimization to refine performance.
-    \item \textbf{Model Evaluation}: This evaluation stage validates the trained model against predefined objectives to ascertain its suitability for deployment in a production environment.
-    \item \textbf{Model Testing}: This constitutes the final acceptance testing of the model, utilizing a reserved test dataset to confirm its efficacy and reliability.
-    \item \textbf{Model Packaging}: This process involves exporting the finalized machine learning model into a standardized format for operational use.
-    \item \textbf{Model Serving}: This stage addresses the integration of the model artifact into a production infrastructure for end-user accessibility.
-    \item \textbf{Model Performance Monitoring}: This ongoing activity observes the model’s effectiveness using real-time, previously unseen data, tracking metrics such as prediction drift to inform potential retraining needs.
-    \item \textbf{Model Performance Logging}: This procedure ensures that each inference request is recorded, generating a detailed log for analysis and accountability.
+    \item \textbf{Data Ingestion:} Raw data from various sources—including sensor streams, historical logs, or simulated outputs—is systematically collected and ingested. Synthetic data generation or augmentation may be applied to improve dataset diversity and robustness.
+    
+    \item \textbf{Exploration and Validation:} This stage includes profiling the dataset to understand its structure, statistical distribution, and completeness. Validation checks are implemented to detect outliers, inconsistencies, or format violations, ensuring the integrity of downstream processes.
+    
+    \item \textbf{Data Cleaning:} Inaccurate or inconsistent entries are corrected, and relevant features are reformatted or normalized to align with modeling requirements.
+    
+    \item \textbf{Data Labeling:} Data instances are annotated with appropriate labels or categories, enabling supervised learning algorithms to associate input features with target outputs.
+    
+    \item \textbf{Data Splitting:} The dataset is partitioned into training, validation, and test subsets. This segregation supports unbiased model evaluation and reduces the risk of overfitting.
+    
+    \item \textbf{Model Training:} Machine learning algorithms are applied to the training dataset to construct predictive models. Feature engineering and hyperparameter tuning are integrated into this step to improve generalization performance.
+    
+    \item \textbf{Model Evaluation:} The trained model is assessed using the validation dataset to measure its performance against predefined metrics. This stage determines the model's readiness for deployment.
+    
+    \item \textbf{Model Testing:} Final validation is conducted using an unseen test dataset to verify model robustness and reliability before it is introduced into production.
+    
+    \item \textbf{Model Packaging:} The approved model is encapsulated into a standardized format—often with necessary metadata and dependencies—for integration with production systems.
+    
+    \item \textbf{Model Serving:} The packaged model is deployed as a service or embedded module, making it accessible to real-time applications or user queries in operational settings.
+    
+    \item \textbf{Model Performance Monitoring:} Post-deployment, the model's output is continuously monitored to detect drift, anomalies, or degradation in predictive accuracy. This informs retraining or parameter adjustment needs.
+    
+    \item \textbf{Model Performance Logging:} All inference activities are logged to maintain traceability, support auditing, and facilitate error analysis or retrospective improvements.
 \end{itemize}
-\section{Mathematical And Theoretical Foundations}
-State estimation is a fundamental concept in control theory and signal processing, aimed at determining the internal state of a dynamic system from its inputs and outputs. This section provides a detailed exploration of mathematical modeling for state estimation, as well as linear and nonlinear estimation techniques, drawing from various academic and technical resources to ensure a thorough understanding. The analysis is grounded in the need for dynamic system models, the distinction between linear and nonlinear systems, and the application of specific estimation algorithms, with attention to both theoretical foundations and practical considerations.
 
-State estimation is defined as the process of estimating the internal state of a dynamic system based on its inputs and outputs, where the state is a set of variables that fully describes the system's behavior at any given time. Since the state may not be directly measurable or measurements may be corrupted by noise, mathematical models and estimation algorithms are employed to infer the state. This is crucial in applications such as robotics, aerospace, economics, and signal processing, where accurate state knowledge is essential for monitoring, control, and fault diagnosis.
+\section{Mathematical and Theoretical Foundations}
 
-To perform state estimation, a mathematical model of the system is essential, typically consisting of two equations:
+State estimation plays a critical role in control theory and signal processing, providing a structured approach to infer the internal conditions of dynamic systems based on observable inputs and outputs. This section introduces the mathematical framework underpinning state estimation, covering linear and nonlinear estimation techniques. The focus lies on how these methods enable accurate monitoring and control of systems whose internal states are either partially observable or entirely hidden.
+
+Many essential system behavior variables, such as robotics, aerospace systems, battery management, and financial modeling, are not directly measurable in practical applications. Instead, these internal states must be estimated using mathematical models that relate inputs and outputs, often under noise or disturbances. The objective of state estimation is to reconstruct these variables over time to support decision-making, diagnostics, and system control.
+
+A dynamic system’s state is a collection of variables encapsulating its condition at a specific moment. Because these states evolve and are not always observable, state estimation relies on predictive modeling and recursive updating to produce best-fit approximations of the actual system behavior.
+
+A well-defined mathematical model of the system is required to implement state estimation effectively. This model typically consists of two core equations that describe the system's dynamics and how those dynamics relate to observable outputs:
+
 \begin{itemize}
-    \item \textbf{State Transition Equation}: This describes how the state evolves over time. For a discrete-time system, it is often written as:
+    \item \textbf{State Transition Equation:} This equation models how the internal state of the system evolves in response to control inputs and process disturbances. For a discrete-time system, it can be expressed as:
     \begin{equation}
         x_k = f(x_{k-1}, u_{k-1}) + w_{k-1}
     \end{equation}
-    where $x_k$ is the state vector at time step $k$, $u_{k-1}$ is the input vector at time step $k-1$, $f$ is the state transition function, and $w_{k-1}$ represents process noise, accounting for uncertainties in the dynamics.
-    \item \textbf{Measurement Equation}: This relates the system's state to the measurements obtained:
+    Where $x_k$ is the state vector at time step $k$, $u_{k-1}$ is the control input at the previous time step, $f(\cdot)$ represents the (potentially nonlinear) state transition function, and $w_{k-1}$ denotes process noise capturing uncertainties in system dynamics.
+
+    \item \textbf{Measurement Equation:} This defines the relationship between the system’s internal state and the measurable outputs:
     \begin{equation}
         z_k = h(x_k) + v_k
     \end{equation}
-    where $z_k$ is the measurement vector at time step $k$, $h$ is the measurement function, and $v_k$ is measurement noise, capturing sensor inaccuracies. 
+    $z_k$ is the observed measurement at time $k$, $h(\cdot)$ is the measurement function, and $v_k$ accounts for measurement noise, which typically arises from sensor imperfections or environmental interference.
 \end{itemize}
-For linear systems, both $f$ and $h$ are linear functions, leading to:
+
+In cases where both $f(\cdot)$ and $h(\cdot)$ are linear functions, the model simplifies to:
 \begin{equation}
     x_k = A x_{k-1} + B u_{k-1} + w_{k-1}
 \end{equation}
 \begin{equation}
     z_k = C x_k + D u_k + v_k
 \end{equation}
-where A, B, C, and D are matrices that define the system's dynamics and measurement relationships. This linearity simplifies the estimation process, as seen in systems like linear motion tracking, where matrices represent constant rates of change, as discussed in \cite{kalman}.
+Matrices $A$, $B$, $C$, and $D$ define the system dynamics and measurement relationships. Such linear systems are commonly encountered in applications like linear motion tracking, where the assumptions of constant rates of change hold reasonably well \cite{kalman}.
 
-For nonlinear systems, $f$ and $h$ are nonlinear functions, reflecting more complex dynamics, such as a car accelerating nonlinearly or a robot navigating with nonlinear sensor readings. Modeling these systems requires understanding the physical laws governing the system or using data-driven methods to approximate these functions, which can be challenging due to the increased complexity.
+For systems with nonlinear characteristics, such as vehicles exhibiting nonlinear acceleration or robots operating with complex sensor models, the functions $f(\cdot)$ and $h(\cdot)$ are nonlinear. Accurately modeling these systems often requires detailed physical modeling or data-driven techniques, both of which increase the complexity of estimation.
 
-An interesting aspect is the need for observability, a property ensuring the state can be uniquely determined from measurements. For linear systems, observability is checked using the observability matrix, while for nonlinear systems, it often requires local analysis or specific conditions, as discussed in \cite{s18010217}. This ensures the system can be estimated effectively, which is critical for practical applications.
+An essential concept in state estimation is \textit{observability}, which refers to the ability to determine the system's internal state from a sequence of measurements. In linear systems, this is assessed using the observability matrix. However, observability is more complex in nonlinear systems and generally requires local or condition-specific analysis, as explored in \cite{s18010217}. Ensuring observability is a prerequisite for successfully implementing state estimation in practical systems.
+
 
 \subsection{Linear Estimation}
-Linear estimation is concerned with systems that can be described by linear state transition and measurement equations, assuming Gaussian noise. The most prominent method is the Kalman filter, which provides an optimal solution (in the least squares sense) for estimating the state. The Kalman filter operates in two steps:
 
-\textbf{Prediction Step}:
+Linear estimation techniques apply to systems that can be accurately described using linear models and assume Gaussian-distributed noise. Among these, the Kalman filter is the most widely adopted method, offering an optimal recursive solution in the sense of minimum mean square error.
+
+The Kalman filter consists of two main stages:
+
+\textbf{Prediction Step:}
 \begin{equation}
     \hat{x}_{k|k-1} = A \hat{x}_{k-1|k-1} + B u_{k-1}
 \end{equation}
 \begin{equation}
     P_{k|k-1} = A P_{k-1|k-1} A^T + Q
 \end{equation}
-where $P$ is the state covariance matrix, and $Q$ is the process noise covariance. These equations are standard and appear in \cite{Söderström2002}, which provides a detailed derivation.
+Here, $\hat{x}_{k|k-1}$ is the predicted state, $P_{k|k-1}$ is the predicted state covariance, and $Q$ represents the process noise covariance. These formulations are standard in the literature and are detailed in \cite{Söderström2002}.
 
-\textbf{Update Step}:
-Calculate the Kalman gain:
+\textbf{Update Step:}
+
+First, compute the Kalman gain:
 \begin{equation}
     K_k = P_{k|k-1} C^T (C P_{k|k-1} C^T + R)^{-1}
 \end{equation}
-where R is the measurement noise covariance. Then, update the state estimate:
+Then, update the state estimate using the new measurement $z_k$:
 \begin{equation}
     \hat{x}_{k|k} = \hat{x}_{k|k-1} + K_k (z_k - C \hat{x}_{k|k-1} - D u_k)
 \end{equation}
-and update the state covariance:
+Finally, update the state covariance:
 \begin{equation}
     P_{k|k} = (I - K_k C) P_{k|k-1}
 \end{equation}
-The Kalman filter is widely used due to its simplicity and optimality for linear systems, as noted in \cite{VENKATESWARLU2022373}. It assumes the noise is Gaussian, which is common in many engineering applications, such as satellite tracking or navigation systems.
+
+The Kalman filter’s efficiency, simplicity, and theoretical optimality under linear Gaussian conditions make it a common choice in engineering fields such as aerospace, autonomous navigation, and battery management systems \cite{VENKATESWARLU2022373}.
 
 \subsection{Nonlinear Estimation}
-Nonlinear estimation deals with systems where the state transition or measurement functions are nonlinear, requiring more advanced methods. Several techniques have been developed:
 
-\textbf{Extended Kalman Filter}:
-This method linearizes the nonlinear functions around the current state estimate using Taylor series expansion and then applies the standard Kalman filter algorithms. It is computationally efficient but may suffer from accuracy issues in highly nonlinear systems, as noted in \cite{Rusnak18}.
+When system dynamics or measurement models are nonlinear, linear estimators like the Kalman filter no longer provide accurate predictions. Several nonlinear estimation techniques have been developed to address this, each tailored to handle nonlinearity differently.
+\\
+\\
+\textbf{Extended Kalman Filter (EKF):}
 
-The state transition is approximated as:
+The EKF addresses nonlinearity by linearizing the nonlinear transition and measurement functions around the current state estimate using a first-order Taylor series expansion. This allows the standard Kalman filter framework to be applied to nonlinear systems.
+
+State transition approximation:
 \begin{equation}
     f(x) \approx f(\hat{x}) + F(\hat{x})(x - \hat{x})
 \end{equation}
-where
+with the Jacobian matrix:
 \begin{equation}
     F_k = \left. \frac{\partial f}{\partial x} \right|_{x = \hat{x}_{k-1|k-1}}
 \end{equation}
-Similarly, for the measurement function:
+
+Measurement function approximation:
 \begin{equation}
     h(x) \approx h(\hat{x}) + H(\hat{x})(x - \hat{x})
 \end{equation}
-where
+With Jacobian:
 \begin{equation}
     H_k = \left. \frac{\partial h}{\partial x} \right|_{x = \hat{x}_{k|k-1}}
 \end{equation}
-\\
-\textbf{Unscented Kalman Filter (UKF)}:
-The UKF uses a set of sigma points to approximate the mean and covariance of the state distribution. These sigma points are propagated through the nonlinear functions, providing a more accurate representation compared to EKF.
 
-The process involves generating sigma points:
+EKF is computationally efficient but may suffer reduced accuracy when the system exhibits strong nonlinearity or poor initial estimates \cite{Rusnak18}.
+\\
+\\
+\textbf{Unscented Kalman Filter (UKF):}
+
+The UKF improves upon EKF by avoiding explicit linearization. Instead, it uses a deterministic sampling technique to generate a set of sigma points that capture the mean and covariance of the state distribution. These points are then propagated through the nonlinear functions, providing more accurate results in many practical scenarios.
+
+Sigma point generation:
 \begin{equation}
     \chi_{k-1|k-1}^i = \hat{x}_{k-1|k-1} + \left( \sqrt{(n + \lambda) P_{k-1|k-1}} \right)_i \quad \text{for } i = 1 \text{ to } n
 \end{equation}
 \begin{equation}
     \chi_{k-1|k-1}^{i+n} = \hat{x}_{k-1|k-1} - \left( \sqrt{(n + \lambda) P_{k-1|k-1}} \right)_i \quad \text{for } i = 1 \text{ to } n
 \end{equation}
-\\
-where $n$ is the state dimension, and $\lambda$ is a scaling parameter, then predicting and updating based on these points.
-\\
-\\
-\textbf{Particle Filters}:
-lso known as sequential Monte Carlo methods, particle filters represent the state distribution by a set of particles, each with an associated weight. These particles are updated and resampled based on measurements, allowing for handling of non-Gaussian and multimodal distributions. However, they can be computationally intensive, as discussed in \cite{PATWARDHAN2012933}. The steps include initialization, prediction, update (weighting), and resampling, with weights updated based on measurement likelihood. \cite{10.1007/978-981-33-6977-1_12}
+
+Here, $n$ is the state dimension, and $\lambda$ is a scaling parameter that adjusts the spread of the sigma points.
+
+The UKF generally offers improved accuracy and robustness over the EKF, especially when dealing with highly nonlinear or uncertain systems, albeit at a slightly higher computational cost.
 \\
 \\
-An interesting aspect is the recent development of hybrid methods, combining data-driven and model-driven approaches, as seen in \cite{s21062085}, which could be a future direction for nonlinear estimation, especially in systems with partially unknown dynamics. 
+\textbf{Particle Filters:} \\
+Particle filters, also referred to as Sequential Monte Carlo methods, represent the state of a system using a set of randomly generated samples or particles, each weighted by its likelihood. This approach is beneficial for handling systems with non-Gaussian noise characteristics or multimodal probability distributions. As new measurements become available, the particles are updated and resampled based on how well they match the observations.
+
+The particle filtering process typically consists of four main steps: initialization (generating the initial particle set), prediction (propagating particles using the system model), update (assigning weights based on measurement likelihood), and resampling (eliminating low-probability particles). This flexibility makes particle filters highly adaptable, although they are known to be computationally demanding, especially in high-dimensional systems \cite{PATWARDHAN2012933,10.1007/978-981-33-6977-1_12}.
 \\
 \\
-In summary, mathematical modeling for state estimation involves defining state transition and measurement equations, which can be linear or nonlinear. Linear estimation, particularly the Kalman filter, is optimal for linear systems, while nonlinear estimation methods like EKF, UKF, and particle filters address the complexities of nonlinear dynamics, each with specific trade-offs in accuracy and computation.
+\textbf{Hybrid Methods:} \\
+Emerging research highlights the potential of combining data-driven approaches (e.g., machine learning models) with physics-based or semi-empirical methods to form hybrid estimation frameworks. These approaches aim to leverage the generalization power of data-driven techniques while retaining the interpretability and physical grounding of model-based methods. As discussed in \cite{s21062085}, this direction is especially promising for nonlinear systems with partially known or evolving dynamics.
+\\
+\\
+\textbf{Summary:} \\
+In conclusion, state estimation relies on mathematical modeling through state transition and measurement equations, which may be linear or nonlinear. Linear systems benefit from the Kalman filter, which offers an optimal estimation framework under Gaussian noise. Extended methods such as EKF, UKF, and particle filters are required for nonlinear systems, each presenting trade-offs between computational cost, estimation accuracy, and robustness.
 
 \section{Related Work}
 \subsection{Extended and Unscented Kalman Filters (EKF and UKF)}
-In Battery Management System, Model-based Kalman filters are widely used to estimate the State of Health (SOH) and State of Charge (SOC). EKF is popular for its simplicity and low computational cost, as it linearizes a non-linear battery model around the current opertaing point. But, its first-order linearization can lead to significant errors when battery dynamics are highly non-linear \cite{GUO2024113850}. In contrast, UKF achieves better estimation accuracy than EKF (especially under strong nonlinearity), albeit with higher computational complexity \cite{GUO2024113850}. UKF propagates a set of sigma points through the nonlinear model, capturing mean and variance more accurately without explicit linearization.
 
-Recent studies show that UKF-based estimators outperform EKF in both accuracy and convergence speed. For example, Fang et al. (2024) compared a standard EKF, a standard UKF, and an adaptive-weighting UKF for joint SOC/SOH estimation \\ \cite{en17092145}. They found the EKF had the poorest accuracy and slowest convergence, while the UKF tracked the true battery states more closely. In their tests, a refined UKF variant converged to the true SOC after only ~217 cycles, whereas the standard UKF took ~662 cycles, and the EKF diverged under large initial errors. Quantitatively, the UKF’s mean SOC error was about 1.66\%, versus 4.4\% for EKF in one benchmark \cite{en6105088}. Similarly, UKF kept SOH estimation errors to a fraction of those of EKF; one study reported the maximum SOH estimation error with UKF was ~2.15× that of an advanced UKF, whereas EKF’s error was ~4.68× higher \cite{en17092145}. These results underscore that UKF’s more faithful handling of nonlinear battery models yields superior accuracy and stability. EKF can still perform well for mild nonlinearities or with frequent re-calibration, but many works now treat EKF as a baseline and prefer UKF for improved robustness \cite{en17092145}. Researchers have also proposed enhancements like dual EKFs (estimating SOC and capacity simultaneously) and adaptive/fading EKFs to mitigate model uncertainties \cite{GUO2024113850}, narrowing the gap to UKF. Overall, UKF-based SOH estimators enable tighter tracking of battery capacity fade and internal resistance growth, which directly improves BMS reliability \cite{GUO2024113850}.
+In the domain of Battery Management Systems (BMS), model-based Kalman filters are extensively used for estimating critical state variables such as State of Charge (SOC) and State of Health (SOH). The Extended Kalman Filter (EKF) is commonly adopted due to its computational simplicity, where a nonlinear battery model is linearized around the current operating point. However, this linearization can lead to substantial inaccuracies when system dynamics are strongly nonlinear \cite{GUO2024113850}.
+
+The Unscented Kalman Filter (UKF) addresses this limitation by eliminating the need for analytical Jacobian computations. Instead, UKF propagates a carefully chosen set of sigma points through the nonlinear system, capturing the true mean and covariance of the state distribution more effectively. While UKF incurs a higher computational cost than EKF, it generally delivers improved estimation performance, particularly under nonlinear conditions \cite{GUO2024113850}.
+
+Comparison of a standard EKF, a standard UKF, and an adaptive-weighted UKF for joint SOC/SOH estimation \cite{en17092145}. Their study found that the EKF had the highest error and slowest convergence rate. The adaptive UKF achieved accurate SOC estimation within approximately 217 cycles, compared to 662 cycles for the standard UKF, while the EKF failed to converge in scenarios with significant initial errors. For instance, the mean SOC error with UKF was approximately 1.66\%, whereas EKF exhibited an error of around 4.4\% in the same benchmark \cite{en6105088}. Regarding SOH, UKF outperformed EKF by a significant margin—UKF's maximum estimation error was about 2.15× that of a refined UKF variant, while EKF’s error was approximately 4.68× higher \cite{en17092145}.
+
+These findings reinforce UKF’s robustness in handling nonlinear battery models, which are critical for reliable SOC and SOH tracking. While EKF may still be suitable for mildly nonlinear systems or when recalibrated frequently, many studies now regard it as a baseline technique. Enhancements such as dual EKFs (simultaneously estimating SOC and battery capacity) and adaptive or fading memory EKFs have been proposed to improve estimation under uncertainty \cite{GUO2024113850}. Nevertheless, UKF-based approaches remain the preferred choice for applications requiring higher accuracy and reliability in dynamic battery environments \cite{GUO2024113850}.
 
 \subsection{Moving Horizon Estimation (MHE)}
-Moving Horizon Estimation is an optimization-based state estimator that has gained traction for battery SOC/SOH estimation in the last few years. Unlike Kalman filters, which update states recursively using one-step predictions, MHE solves a constrained optimization problem over a sliding time window of past measurements \cite{10483287}. This approach can explicitly handle nonlinear battery models and constraints (e.g. voltage or current limits) and also better accommodate inaccuracies in initial states and noise statistics. In essence, at each step MHE finds the state trajectory that best fits the recent measurement window, often leading to more robust estimates in challenging conditions. Several recent works demonstrate MHE’s advantages for Li-ion batteries. Shokri et al. (2024) applied MHE to a fractional-order battery model and compared it against EKF/UKF for SOC estimation under poor initial conditions. They reported that MHE converged quickly to the true SOC even with large initial errors, whereas EKF and UKF showed slower or no convergence in those cases. In a scenario with a 50\% initial SOC mismatch, the MHE estimator rapidly corrected the error, whereas the EKF diverged and the UKF responded more sluggishly. This led to substantially lower estimation error with MHE – one study noted that MHE’s SOC error remained near 0\% despite a bad initial guess, while EKF’s error exceeded 5\% \cite{10483287}. Key findings are that MHE’s ability to incorporate constraints (like physically plausible SOC ranges) and re-optimize past states gives it resilience to sensor noise and modeling errors. 
+Moving Horizon Estimation is an optimization-based state estimator that has gained traction for battery SOC/SOH estimation in recent years. Unlike Kalman filters, which update states recursively using one-step predictions, MHE solves a constrained optimization problem over a sliding time window of past measurements \cite{10483287}. This approach can explicitly handle nonlinear battery models and constraints (e.g., voltage or current limits) and better accommodate inaccuracies in initial states and noise statistics. At each step, MHE finds the state trajectory that best fits the recent measurement window, often leading to more robust estimates in challenging conditions. Several recent works demonstrate MHE’s advantages for Li-ion batteries. \cite{10483287} applied MHE to a fractional-order battery model and compared it against EKF/UKF for SOC estimation under poor initial conditions. They reported that MHE converged quickly to the accurate SOC even with significant initial errors, whereas EKF and UKF showed slower or no convergence. In a scenario with a 50\% initial SOC mismatch, the MHE estimator rapidly corrected the mistake, whereas the EKF diverged and the UKF responded more sluggishly. This led to substantially lower estimation error with MHE – one study noted that MHE’s SOC error remained near 0\% despite a bad initial guess, while EKF’s error exceeded 5\% \cite{10483287}. Key findings are that MHE’s ability to incorporate constraints (like physically plausible SOC ranges) and re-optimize past states gives it resilience to sensor noise and modeling errors. 
 
-For instance, MHE can enforce battery SOC to stay within [0,100]\% during estimation, preventing unphysical drift that might occur in an EKF. Researchers have successfully used MHE not only for SOC, but also for directly tracking SOH-related parameters. Hu et al. implemented an MHE scheme to estimate capacity fade (SOH) online using a reduced electrochemical model, demonstrating accurate condition monitoring over battery life \cite{GUO2024113850}. The main trade-off is computational: solving an optimization at each step is heavier than a Kalman update. However, with modern processors and tailored solvers, MHE can run in real-time for BMS and yields robust, high-accuracy state estimates in regimes where EKF/UKF may struggle (e.g. highly nonlinear regions, unknown initial SOC) \cite{10483287}. In summary, MHE offers improved accuracy and stability (especially under constraints or large uncertainties) at the cost of higher computation, making it an attractive choice for advanced BMS in electric vehicles and grid storage.
+For instance, MHE can enforce battery SOC to stay within [0,100]\% during estimation, preventing unphysical drift that might occur in an EKF. Researchers have successfully used MHE not only for SOC but also for directly tracking SOH-related parameters. \cite{GUO2024113850} developed a model-based health estimation (MHE) approach for online capacity fade (SOH) assessment using a simplified electrochemical model, showcasing effective condition monitoring throughout the battery's lifespan. The main trade-off is computational: solving an optimization at each step is heavier than a Kalman update. However, with modern processors and tailored solvers, MHE can run in real-time for BMS and yields robust, high-accuracy state estimates in regimes where EKF/UKF may struggle (e.g., highly nonlinear regions, unknown initial SOC) \cite{10483287}. In summary, MHE offers improved accuracy and stability (especially under constraints or significant uncertainties) at a higher computation cost, making it an attractive choice for advanced BMS in electric vehicles and grid storage.
 
 \subsection{MLOps in SOH Estimation}
-This survey explores the application of MLOps in enhancing State of Health (SOH) estimation for lithium-ion batteries within a cloud-based Battery Management System (BMS). \cite{en15051692} proposed hybrid models, demonstrating effectiveness in real-world conditions, aligning with MLOps for continuous model updates.\\ \\ \cite{8095896} evidenced real-time data handling of the BMS, as cloud platforms process streaming data efficiently, allowing immediate SOH updates. Cloud environments handle large datasets and multiple batteries, a significant advantage for large-scale applications like EV fleets, as noted in \cite{batteries8020019}. This scalability is crucial for managing growing demand for battery storage. Cloud providers offer robust security features, ensuring data protection and compliance, which is critical for sensitive battery data. BMS in the cloud integrates with IoT platforms and other cloud services, facilitating comprehensive management. This integration is unexpected for traditional BMS, which often operate in isolation.
+This survey explores the application of MLOps in enhancing State of Health (SOH) estimation for lithium-ion batteries within a cloud-based Battery Management System (BMS). \cite{en15051692} proposed hybrid models, demonstrating effectiveness in real-world conditions, aligning with MLOps for continuous model updates.\\ \\ \cite{8095896} evidenced real-time data handling of the BMS, as cloud platforms process streaming data efficiently, allowing immediate SOH updates. Cloud environments handle large datasets and multiple batteries, a significant advantage for large-scale applications like EV fleets, as noted in \cite{batteries8020019}. This scalability is crucial for managing the growing demand for battery storage. Cloud providers offer robust security features, ensuring data protection and compliance, which is critical for sensitive battery data. BMS in the cloud integrates with IoT platforms and other cloud services, facilitating comprehensive management. This integration is unexpected for traditional BMS, which often operate in isolation.

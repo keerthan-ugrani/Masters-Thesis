@@ -1,0 +1,195 @@
+\section{Introduction}
+This document provides a detailed mathematical and theoretical explanation of the implementation for estimating the State of Health (SOH) of batteries, as implemented in a Python script. The process begins with Moving Horizon Estimation (MHE), proceeds through stacking with a linear regression meta-model, applies Extended Kalman Filter (EKF) smoothing, computes error metrics, and concludes with result storage and visualization. Each step is mathematically formulated and aligned with the code's structure.
+
+\section{Moving Horizon Estimation (MHE)}
+
+\subsection{Purpose}
+MHE corrects the raw \(\text{Final_cyclic_aging}\) to better match the ground truth SOH by optimizing a correction factor \(k\) and window size per battery, incorporating robustness through Huber Loss, temporal constraints, and L2 regularization.
+
+\subsection{Mathematical Formulation}
+\begin{itemize}
+    \item \textbf{Objective}: For a window size \(w\) and global correction factor \(k\), the predicted SOH within each window is:
+    \[
+    \hat{y}_{w} = k \cdot \text{Final_cyclic_aging_scaled}
+    \]
+    \item \textbf{Loss Function}: The optimization minimizes a composite loss:
+    \[
+    L = \text{Huber Loss} + k_{\text{penalty}} + L2_{\text{penalty}}
+    \]
+    Where:
+    \begin{itemize}
+        \item \textbf{Huber Loss}: A robust loss for residuals \(r_i = y_i - \hat{y}_i\):
+        \[
+        L_\delta(r_i) = 
+        \begin{cases} 
+        \frac{1}{2} r_i^2 & \text{if } |r_i| \leq \delta \\
+        \delta |r_i| - \frac{1}{2} \delta^2 & \text{if } |r_i| > \delta 
+        \end{cases}
+        \]
+        \[
+        \text{Huber Loss} = \frac{1}{n} \sum_{i=1}^{n} L_\delta(r_i), \quad \delta = 1.0
+        \]
+        \item \textbf{Temporal Penalty}: Limits \(k\) changes between windows:
+        \[
+        k_{\text{penalty}} = 1000 \cdot \max(0, |k_{\text{current}} - k_{\text{prev}}| - 0.1)
+        \]
+        \item \textbf{L2 Penalty}: Regularizes \(k\):
+        \[
+        L2_{\text{penalty}} = 0.01 \cdot k^2
+        \]
+        \item \textbf{MSE Constraint}: Penalizes if MSE is outside 9-25:
+        \[
+        \text{MSE} = \frac{1}{n} \sum_{i=1}^{n} r_i^2
+        \]
+        \[
+        \text{if } \text{MSE} < 9 \text{ or } \text{MSE} > 25, \quad L = L + 1000 \cdot |\text{MSE} - 17|
+        \]
+    \end{itemize}
+\end{itemize}
+
+\subsection{Implementation}
+The MHE optimization is implemented in the function \texttt{mhe\_battery\_objective}:
+\begin{itemize}
+    \item \textbf{Scaling}: Compute \(\text{Final_cyclic_aging_scaled}\) once before optimization:
+    \[
+    \text{Final_cyclic_aging_scaled} = \text{Final_cyclic_aging} \cdot \frac{\text{mean}(y)}{\text{mean}(\text{Final_cyclic_aging})}
+    \]
+    \item \textbf{Adaptive Windows}: Determine window sizes based on SOH changes:
+    \[
+    \Delta \text{SOH}_i = |\text{SOH}_{i+1} - \text{SOH}_i|, \quad w_i = 
+    \begin{cases} 
+    3 & \text{if } \Delta \text{SOH}_i > \text{threshold} \\
+    10 & \text{otherwise}
+    \end{cases}
+    \]
+    where \(\text{threshold}\) is the 75th percentile of \(\Delta \text{SOH}\).
+    \item \textbf{Multiple Runs}: For each window size \(w_j\), optimize \(k_j\):
+    \[
+    \text{mhe\_results} = [(w_j, k_j, L_j)]
+    \]
+    \item \textbf{Weighted Averaging}: Combine predictions:
+    \[
+    \hat{y}_{\text{avg}} = \sum_{j} \frac{w_j}{\sum w_j} \cdot (k_j \cdot \text{Final_cyclic_aging_scaled}), \quad w_j = \frac{1}{L_j}
+    \]
+\end{itemize}
+
+\section{Stacking with Linear Regression Meta-Model}
+
+### Purpose
+Stacking refines the SOH estimate by combining \(\text{Final_cyclic_aging_scaled}\) and \(\text{Local_Corrected_SOH}\) using a linear regression meta-model.
+
+### Mathematical Formulation
+\begin{itemize}
+    \item \textbf{Model}: Linear combination of base predictions:
+    \[
+    \hat{y}_{\text{stacked}} = \beta_0 + \beta_1 x_1 + \beta_2 x_2
+    \]
+    where \(x_1 = \text{Final_cyclic_aging_scaled}\), \(x_2 = \text{Local_Corrected_SOH}\).
+    \item \textbf{Optimization}: Minimize MSE:
+    \[
+    \text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_{\text{stacked},i})^2
+    \]
+    Solved via the normal equation:
+    \[
+    \beta = (X^T X)^{-1} X^T y, \quad X = [1, x_1, x_2]
+    \]
+\end{itemize}
+
+\subsection{Implementation}
+Implemented in \texttt{process\_batteries\_individually\_with\_mhe}:
+\[
+X = [\text{Final_cyclic_aging_scaled}, \text{Local_Corrected_SOH}], \quad y = \text{ground_truth_soh}
+\]
+The model fits \(\beta_0, \beta_1, \beta_2\) and predicts \(\text{Stacked_SOH}\).
+
+\section{Extended Kalman Filter (EKF) Smoothing}
+
+### Purpose
+EKF smooths \(\text{Stacked_SOH}\) to reduce noise while preserving trends.
+
+### Mathematical Formulation
+\begin{itemize}
+    \item \textbf{State Model}: Persistence with trend:
+    \[
+    x_{t+1} = x_t + \text{trend_rate} + w_t, \quad w_t \sim N(0, Q)
+    \]
+    \item \textbf{Measurement Model}:
+    \[
+    z_t = x_t + v_t, \quad v_t \sim N(0, R)
+    \]
+    \item \textbf{Prediction}:
+    \[
+    x_{\text{pred},t} = x_{t-1} + \text{trend_rate}, \quad P_{\text{pred},t} = P_{t-1} + Q
+    \]
+    \item \textbf{Update}:
+    \[
+    K_t = \frac{P_{\text{pred},t}}{P_{\text{pred},t} + R}, \quad x_t = x_{\text{pred},t} + K_t (z_t - x_{\text{pred},t}), \quad P_t = (1 - K_t) P_{\text{pred},t}
+    \]
+    \item \textbf{Objective}: Optimize \(Q, R, \text{trend_rate}\) to minimize Huber Loss:
+    \[
+    \text{Huber Loss} = \frac{1}{n} \sum_{t=1}^{n} L_\delta(y_t - \hat{y}_t), \quad \hat{y}_t = x_t, \quad \delta = 1.0
+    \]
+\end{itemize}
+
+\subsection{Implementation}
+\begin{itemize}
+    \item \textbf{EKF Smoothing} (\texttt{ekf\_smooth}):
+    \[
+    x_t = x_{\text{pred},t} + K_t (z_t - x_{\text{pred},t})
+    \]
+    \item \textbf{Optimization} (\texttt{ekf\_objective}): Optuna minimizes Huber Loss over \(Q, R, \text{trend_rate}\).
+    \item Applied in \texttt{process\_batteries\_individually\_with\_mhe} to produce \(\text{Smoothed_SOH}\).
+\end{itemize}
+
+\section{Error Estimation}
+
+### Purpose
+Quantify the accuracy of \(\text{Smoothed_SOH}\) against ground truth and scaled cyclic aging.
+
+### Mathematical Formulation
+\begin{itemize}
+    \item \textbf{Mean Squared Error (MSE)}:
+    \[
+    \text{MSE}_{\text{ground_truth}} = \frac{1}{n} \sum_{i=1}^{n} (\text{Smoothed_SOH}_i - y_i)^2
+    \]
+    \[
+    \text{MSE}_{\text{final_cyclic}} = \frac{1}{n} \sum_{i=1}^{n} (\text{Smoothed_SOH}_i - \text{Final_cyclic_aging_scaled}_i)^2
+    \]
+    \item \textbf{Root Mean Squared Error (RMSE)}:
+    \[
+    \text{RMSE} = \sqrt{\text{MSE}}
+    \]
+\end{itemize}
+
+\subsection{Implementation}
+Computed in \texttt{process\_batteries\_individually\_with\_mhe}:
+\[
+\text{MSE}_{\text{ground_truth}}, \quad \text{RMSE}_{\text{ground_truth}}, \quad \text{MSE}_{\text{final_cyclic}}, \quad \text{RMSE}_{\text{final_cyclic}}
+\]
+
+\section{Final Implementation Steps}
+
+### Purpose
+Store results, output metrics, and visualize SOH estimates.
+
+### Mathematical/Logical Steps
+\begin{itemize}
+    \item \textbf{Storage}: Results are stored in a dictionary:
+    \[
+    \text{all_results}[b] = \{ \text{window_sizes}, \text{global_ks}, \text{mse_mhe}, \text{mse_ground_truth}, \text{rmse_ground_truth}, \text{mse_final_cyclic}, \text{rmse_final_cyclic}, \text{df} \}
+    \]
+    \item \textbf{Output}: Print \(k\) values and error metrics.
+    \item \textbf{Visualization}: Plot:
+    \begin{itemize}
+        \item Ground truth: \(y_i\)
+        \item Scaled cyclic aging: \(\text{Final_cyclic_aging_scaled}_i\)
+        \item MHE-corrected: \(\text{Local_Corrected_SOH}_i\)
+        \item Smoothed: \(\text{Smoothed_SOH}_i\)
+    \end{itemize}
+\end{itemize}
+
+\subsection{Implementation}
+Results are stored, printed, and plotted in \texttt{process\_batteries\_individually\_with\_mhe}.
+
+\section{Conclusion}
+This implementation integrates MHE for initial correction, stacking for refinement, EKF for smoothing, and error estimation for validation, leveraging mathematical optimization and robust techniques to accurately estimate battery SOH.

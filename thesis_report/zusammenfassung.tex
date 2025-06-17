@@ -1,9 +1,10 @@
 
 % This file contains the German version of your abstract, with about 300-500 words
 
-Die Zusammenfassung muss auf Deutsch \textbf{und} auf Englisch geschrieben
-werden. Die Zusammenfassung sollte zwischen einer halben und einer
-ganzen Seite lang sein. Sie soll den Kontext der Arbeit, die
-Problemstellung, die Zielsetzung und die entwickelten Methoden sowie
-Erkenntnisse bzw.~Ergebnisse übersichtlich und verständlich
-beschreiben.
+Batteriemanagementsysteme (BMS) sind entscheidend für die Gewährleistung der Zuverlässigkeit, Sicherheit und Lebensdauer von Lithium-Ionen-Batterien, insbesondere in Elektrofahrzeugen (EVs) und großtechnischen Energiespeichersystemen. Die genaue Schätzung des Zustands der Batterie (State of Health, SOH) und des Ladezustands (State of Charge, SOC) ist für diese Ziele unerlässlich. Semi-empirische Modelle, die physikalische Erkenntnisse mit empirischer Anpassung kombinieren, bieten eine rechenleistungseffiziente Methode zur SOH-Schätzung. Sie leiden jedoch häufig unter mangelnder Anpassungsfähigkeit an dynamische Betriebsbedingungen, fehlenden skalierbaren Bereitstellungsmechanismen und einem Mangel an kontinuierlichen Korrekturschleifen, was oft zu Abweichungen von Labor-Testbankmessungen führt.
+
+Diese Arbeit schlägt eine neuartige Architektur vor – Numerical Model Operations (NMOps), inspiriert von Machine Learning Operations (MLOps), um diese Einschränkungen zu überwinden. Das Framework ermöglicht die skalierbare Bereitstellung,\\ Überwachung und Echtzeitkorrektur von semi-empirischen und numerischen Hybridmodellen. Im Zentrum der Architektur steht der Adaptive Multi-Horizon SOH Correction Algorithm, der Moving Horizon Estimation (MHE) nutzt, um optimale Korrekturfaktoren ($k_1$, $k_2$) über kurze (3-Zyklen) und erweiterte (10-Zyklen) Fenster zu berechnen. Diese Faktoren werden mithilfe einer regularisierten Least-Squares-Kostenfunktion mit Huber-Loss optimiert, um die Robustheit gegenüber Rauschen zu verbessern. Die resultierenden korrigierten SOH-Werte werden durch einen Extended Kalman Filter (EKF) weiter verfeinert, um transiente Schwankungen und Messfehler zu glätten und die Konsistenz der Zeitreihe sicherzustellen.
+
+Die Validierung erfolgte anhand von acht Zellen des NASA-Lithium-Ionen-\\Batteriedatensatzes, wobei die Leistung mithilfe der Metriken RMSE bewertet wurde. Der vorgeschlagene Algorithmus übertraf das Ausgangsmodell deutlich und erreichte einen durchschnittlichen RMSE von 1,24\% (Spanne: 0,38–3,61\%). Die besten Ergebnisse wurden für Zelle B0028 erzielt (RMSE = 0,38\%), während Zelle B0018 aufgrund von Sensorrauschen und Modellmängeln höhere Fehler aufwies. Darüber hinaus integrierte das NMOps-Framework parallele Verarbeitung und zeigte Generalisierbarkeit für andere numerische Schätzungspipelines.
+
+Insgesamt ermöglicht die NMOps-Architektur Echtzeit-Feedback, skalierbare Bereitstellung und automatisierte Validierung, wodurch die Einschränkungen statischer semi-empirischer Ansätze überwunden werden. Zukünftige Arbeiten umfassen die Erweiterung des Frameworks mit Neural Ordinary Differential Equations (Neural ODEs), fortschrittlichen ML-Modellen wie LSTM und XGBoost sowie verteiltem Rechnen für die Überwachung und prädiktive Analyse großer Flotten.

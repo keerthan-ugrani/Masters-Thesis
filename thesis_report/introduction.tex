@@ -1,104 +1,118 @@
 
-% This file contains Introduction of the thesis
+% This file contains the Introduction of the thesis
 
-A Battery Management System is a vital electronic control system that monitors, manages, and protects battery packs to ensure safe and efficient operations \cite{wevj-12-00120-v2}. A battery pack comprises numerous cells linked either in series or parallel, each possessing distinct traits that require oversight and adjustment to boost durability and cut costs \cite{energies-18-00342-v2}\cite{wevj-12-00120-v2}. Apart from the cells themselves, certain threshold, must be maintained to extend their operational life. These threshold include temperature ranges, charge and discharge rates, current termination points, and upper/lower voltage boundaries. Integrated within the battery pack is a system known as Battery Management System (BMS). A proficient BMS safeguards the battery from physical wear and tear, forecasts its longevity, controls the charge-discharge cycles, and impacts the total life cycles. Its key tasks involve tracking cell heat levels, managing thermal conditions, equalizing cell voltages, measuring current across modules or the pack, calculating state of charge (SOC) and state of health (SOH), and fine-tuning cells to slow degradation. Consequently, an effective BMS improves battery supervision, ensures secure functioning, provides maximum power output, and lengthens service life. It also needs to coordinate with onboard components—such as the motor controller, climate regulator, shared bus, diagnostic system, and vehicle processor—to carry out diverse operations \cite{wevj-12-00120-v2}. 
+A Battery Management System (BMS) is a core component in modern battery-powered applications, designed to oversee and regulate the operation of battery packs to ensure safety, reliability, and performance \cite{wevj-12-00120-v2}. Battery packs typically consist of multiple electrochemical cells connected in series and/or parallel, each exhibiting variations in behavior that necessitate precise management to enhance longevity and reduce operational costs \cite{energies-18-00342-v2,wevj-12-00120-v2}. Maintaining optimal operating conditions, such as limiting temperatures, controlling charge/discharge rates, and enforcing voltage and current boundaries, is essential to delay degradation and avoid failures.
 
-In Electric Vehicles (EVs), the BMS has to perform pretty complex tasks due to the complicated nature of the batteries, such as high capacity, high power, wide temperature variation and harsh driving conditions. The accurate estimation of state variables such as State of Charge (SOC) and State of Health (SOH) is pivotal in the management of Lithium-Ion batteries \cite{105207_1_5.0172683}. These variables provide essential information about the status and overall health of the battery, which is fundamental for optimal battery management \cite{105207_1_5.0172683}. Correctly predicting battery SOH plays a crucial role in extending the lifespan of new energy vehicles, ensuring their safety, and promoting their sustainable development\cite{electronics-13-01675}. 
+The BMS operates as an embedded control unit within the battery system. It performs various critical functions, including real-time monitoring of thermal and electrical parameters, balancing cell voltages, estimating key performance indicators like State of Charge (SOC) and State of Health (SOH), and executing protective actions when anomalies are detected. These tasks collectively improve battery efficiency, extended service life, and safer operation. Furthermore, the BMS interfaces with other vehicle or system controllers—such as propulsion systems, thermal management units, communication modules, and diagnostic tools—to support seamless integration and operational coordination \cite{wevj-12-00120-v2}.
 
-Some of the key functionalities and features of a BMS:
+
+In Electric Vehicles (EVs), the Battery Management System (BMS) is tasked with managing the inherent complexities of lithium-ion batteries, which include high energy density, substantial power requirements, broad operating temperature ranges, and exposure to demanding environmental and driving conditions. Accurate estimation of state variables—particularly the State of Charge (SOC) and the State of Health (SOH)—is essential for ensuring efficient and reliable battery operation \cite{105207_1_5.0172683}. These indicators offer critical insights into the current condition and capacity of the battery, forming the foundation for effective energy management strategies.
+
+The SOH, in particular, serves as a measure of how much the battery has deteriorated from its original state \cite{s41598-025-92262-8}. It reflects the capacity loss and internal resistance increase, which are key factors in assessing the long-term usability of the battery. Timely and precise SOH estimation supports predictive maintenance and enhances the overall safety and longevity of EV systems \cite{105207_1_5.0172683,electronics-13-01675}. Moreover, a well-calibrated SOH model can guide operational decisions and replacement schedules, minimizing unexpected failures and contributing to the sustainable deployment of electric mobility solutions \cite{electronics-13-01675}.
+
+
+\subsection*{Significance of Battery State of Health (SOH)}
+
+The State of Health (SOH) is a critical parameter in battery diagnostics and lifecycle management. Its accurate assessment offers multiple operational and strategic advantages:
+
 \begin{itemize}
-    \item \textbf{State of Charge (SOC) Estimation:} Describes a battery’s remaining capability as a proportion of the total capacity under the same conditions\cite{wevj-12-00120-v2}. Accurate SOC estimation is very important to monitor and optimize the performance of the batteries by controlling their charging and discharging, and it can tell how long an EV can drive before charging.
-    \item \textbf{State of Health (SOH) Estimation:} Provides the health condition of the batteries, i.e., their degree of degradation\cite{wevj-12-00120-v2}. It basically represents how many cycles are left before the battery will reach its end of life. Accurate SOH estimation is crucial for safe and reliable operation.
-    \item \textbf{Cell Monitoring:} Continuously monitors the cell's conditions which will ultimately help in managing, protecting, equalizing, and controlling the operations \cite{wevj-12-00120-v2}.
-    \item \textbf{Cell Balancing:}\cite{wevj-12-00120-v2} Tries to maintain an equal state of charge in each cell . This is a crucial task as even cells of the same model and manufacturer are not identical, and imbalance can reduce overall pack capacity and cause malfunction. Cell balancing topologies can be categorized as active and passive. Active cell balancing exploits all the stored energy, while passive balancing dissipates energy from high SOC cells. 
-    \item \textbf{Thermal Management:} Screens the cell temperature and performs thermal management to avoid speedy degradation of the battery\cite{wevj-12-00120-v2}. Maintaining a uniform temperature distribution is essential for optimal battery operation, and BMS often incorporates Battery Thermal Management Systems (BTMS). Cooling systems can be internal or external \cite{energies-18-00342-v2}. 
-    \item \textbf{Voltage Management:} Precisely measures the voltage of each cell using voltage acquisition channels. SOC estimation also depends heavily on voltage measurements \cite{wevj-12-00120-v2}. 
-    \item \textbf{Current Measurement:}\cite{wevj-12-00120-v2} Acquires the current level of the battery pack.
-    \item \textbf{Safety Features:} \cite{wevj-12-00120-v2} Provides protection against over- and undercurrent/voltage, overheating/pressure, leakage current/voltage, short circuits, over charging/discharging, faults in connected devices, ground faults, and system or command failures. 
-    \item \textbf{Communication:} Maintains simultaneous bi-directional (internal and external) communications with the whole system (power electronics, vehicle control unit, etc.) to provide status updates, send/receive commands, and perform other functions in real time\cite{wevj-12-00120-v2}. 
-    \item \textbf{Computation:} Performs many functions such as data collection, data processing, charging/discharging current control, and state estimations, requiring fast, dynamic, efficient, and accurate operation\cite{wevj-12-00120-v2}.
-    \item \textbf{Data Monitoring and Storage:} Effectively monitors different parameters and has good data storage to utilize the stored data for various functions and hazard prediction\cite{wevj-12-00120-v2}.
-    \item \textbf{Power Management Control:} Reduces power consumption and minimizes losses for safe, stable, and efficient operation\cite{wevj-12-00120-v2}.
-    \item \textbf{Charging and Discharging Control:} Carefully monitors charging and discharging of cells as the efficiency, durability, and life cycle of LIB depend on it, ensuring operation within safe limits\cite{wevj-12-00120-v2}.
-    \item \textbf{State of Power:}\cite{wevj-12-00120-v2} Indicates the battery's current power capability.
-    \item \textbf{State of Safety (SOS):} Monitors and ensures the safety of the overall system considering changes in current, temperature, voltage, etc.\cite{wevj-12-00120-v2}.
-    \item \textbf{Depth of Discharge (DOD):} Defines the percentage of the battery capability that has been discharged\cite{wevj-12-00120-v2}.
-    \item \textbf{State of Function (SOF):} Determines how efficiently the battery can perform based on various parameters \cite{wevj-12-00120-v2}.
-    \item \textbf{End of Discharge (EOD):} Refers to the stage when SOC is 0\% and the battery is empty \cite{wevj-12-00120-v2}.
-    \item \textbf{Galvanic Isolation:} Provides isolation between high and low voltage sections for safety \cite{wevj-12-00120-v2}. 
+    \item \textbf{Efficient Battery Utilization:} Knowledge of the SOH allows for more informed decisions regarding charge/discharge control and thermal management, enhancing overall system efficiency \cite{105207_1_5.0172683}.
+    
+    \item \textbf{Lifecycle Optimization:} By enabling early detection of degradation trends, reliable SOH prediction supports the development of optimized usage patterns and maintenance protocols that extend battery longevity \cite{electronics-13-01675}.
+    
+    \item \textbf{Safety Enhancement:} Predictive SOH monitoring helps prevent hazardous situations by identifying potential failure points in advance, thereby contributing to safer operation of electric vehicles and storage systems \cite{electronics-13-01675}.
+    
+    \item \textbf{Maintenance Planning and Cost Reduction:} SOH insights facilitate timely servicing and component replacement, reducing the risk of unexpected breakdowns and minimizing downtime and maintenance costs \cite{105207_1_5.0172683}.
+    
+    \item \textbf{Remaining Useful Life (RUL) Estimation:} A well-calibrated SOH model\\ provides the foundation for estimating the Remaining Useful Life (RUL), \\ which is essential for long-term planning and predictive asset management\\ \cite{wevj-12-00120-v2}.
 \end{itemize}
 
-The State of Health (SOH) is an important indicator of a lithium-ion battery's condition, reflecting the extent of its performance degradation compared to its initial state \cite{s41598-025-92262-8}. It provides essential information about the battery's overall health and is fundamental for optimal battery management \cite{105207_1_5.0172683}. Correctly predicting battery SOH plays a crucial role in extending the lifespan of new energy vehicles, ensuring their safety, and promoting their sustainable development \cite{electronics-13-01675}. An accurate SOH estimation provides critical insight into the battery's degradation process over time, enabling timely maintenance and replacement decisions, thereby preventing unexpected failures \cite{105207_1_5.0172683}.
 
-Importance of Battery State of Health (SOH):
+\subsection*{Key Factors Influencing Battery SOH}
+
+The degradation of lithium-ion batteries, and thus their State of Health (SOH), is governed by several operational, environmental, and material-related factors. These influences can vary significantly depending on usage patterns and system design:
+
 \begin{itemize}
-    \item \textbf{Optimal Battery Management:} SOH information is fundamental for the efficient management of lithium-ion batteries \cite{105207_1_5.0172683}.
-    \item \textbf{Lifespan Extension:} Accurate SOH prediction helps in formulating reasonable battery usage and maintenance plans, prolonging battery life \cite{electronics-13-01675}.
-    \item \textbf{Safety Assurance:} Correctly predicting SOH ensures the safety of new energy vehicles \cite{electronics-13-01675}.
-    \item \textbf{Timely Maintenance and Replacement:} SOH estimation enables timely decisions regarding battery maintenance and replacement, preventing unexpected failures \cite{105207_1_5.0172683}.
-    \item \textbf{Remaining Useful Life (RUL) Prediction:} SOH estimation is often a precondition for estimating the battery's remaining useful life \cite{wevj-12-00120-v2}.
+    \item \textbf{Environmental and Electrical Conditions:} Parameters such as operating temperature, charging/discharging current, depth of discharge (DOD), and the maintained state of charge (SOC) directly affect the rate of aging and performance deterioration \cite{energies-18-00342-v2}.
+    
+    \item \textbf{Charge-Discharge Cycling:} Repeated cycling results in gradual capacity fade and resistance increase. Conditions such as deep discharges, overcharging, or operation at extreme SOC levels (below 25\% or above 90\%) have been shown to accelerate degradation more rapidly than moderate cycling behavior \cite{electronics-13-01675,batteries-10-00181-v2,energies-18-00342-v2}. Elevated temperatures exacerbate these effects, irrespective of the cell chemistry \cite{energies-18-00342-v2}.
+    
+    \item \textbf{Calendar Aging:} Even in the absence of active cycling, time-dependent chemical processes contribute to internal degradation, particularly under elevated storage temperatures \cite{energies-18-00342-v2}.
+    
+    \item \textbf{Material Decomposition and Structural Changes:} Long-term usage leads to physical and chemical alterations in the electrodes and electrolyte, such as lithium plating, SEI (solid electrolyte interphase) layer growth, and structural breakdown, all of which degrade SOH \cite{energies-18-00342-v2}.
 \end{itemize}
 
-Definitions of SOH:
-Currently, there are numerous definitions of battery SOH in the literature\cite{s41598-025-92262-8}. Mainstream evaluation methods typically rely on changes in capacity or internal resistance\cite{electronics-13-01675}.
+
+Although the previously discussed factors contribute significantly to understanding battery degradation, they are not exhaustive. Several challenges remain in accurately modeling real-world battery behavior using semi-empirical approaches. The key limitations include:
+
 \begin{itemize}
-    \item \textbf{Capacity Based Definition:} The most widely used approach defines SOH based on the degree of capacity degradation \cite{s41598-025-92262-8}. It is calculated as the percentage of the current maximum available capacity ($Q_m$) of the battery in relation to its rated capacity ($Q_r$)\cite{electronics-13-01675}\cite{wevj-12-00113}: $$SOH = \frac{Q_m}{Q_r} \times 100\% \quad (1)$$ The change of capacity is directly related to the SOH of the battery, which can clearly and stably reflect the degradation process \cite{s41598-025-92262-8}. A battery is generally considered at the end of life (EOL) when its capacity has decreased to 80\% of its original value, as stated by IEEE standard 1188.1996\\ \cite{wevj-12-00113}\cite{energies-18-00342-v2}.
-    \item \textbf{Internal Resistance Based Definition:}  SOH can also be defined according to the internal resistance of the battery\cite{wevj-12-00113}: $$SOH = \frac{R_e - R}{R_e - R_n} \times 100\% \quad (2)$$ where $R$ is the internal resistance under the current state, $R_e$ is the internal resistance of the battery when it reaches the end of life, and $R_n$ is the internal resistance of the new battery\cite{wevj-12-00113}. The increase of internal resistance is an important indicator of battery aging and contributes to the further decline of battery SOH\cite{wevj-12-00113}.
+    \item \textbf{Sensitivity to Noisy and Non-Stationary Data:} Semi-empirical models often lack mechanisms to address sudden shifts or irregularities in measurement data. These unexpected variations, caused by sensor inaccuracies, environmental disturbances, or transient events, can lead to significant deviations in SOH predictions, as these models do not inherently adapt to changing data distributions \cite{s21248304}.
+    
+    \item \textbf{Dependence on Fixed Parameterization:} Typically, these models rely on parameters calibrated under specific laboratory or historical conditions, such as degradation coefficients derived from controlled cycling experiments\\ \cite{doi:10.1021/ie990486w}. When deployed in dynamic or unseen environments, the fixed nature of these parameters limits generalizability, often resulting in performance degradation.
+    
+    \item \textbf{Lack of Real-Time Feedback and Learning Mechanisms:} Conventional semi-empirical frameworks operate statically and do not support continuous learning or model adaptation. In cloud-based or time-evolving deployment scenarios, this limitation restricts the ability to respond to system drift, thereby reducing accuracy and operational efficiency over time \cite{7462263,8633871}.
 \end{itemize}
 
-Relationship with other battery states:
+The widespread adoption of lithium-ion batteries across high-demand applications, such as electric vehicle (EV) fleets and utility-scale energy storage systems, has emphasized the critical need for reliable and scalable models to estimate the State of Health (SOH). Accurate SOH estimation is essential for optimizing battery utilization, ensuring system safety, and extending service life within battery management systems (BMS). Among various modeling approaches, semi-empirical models have gained popularity due to their favorable trade-off between interpretability and computational efficiency, as they combine physics-informed equations with empirically derived parameters.
+
+However, as deployment environments become more dynamic and data-intensive, several structural limitations of semi-empirical models become evident, particularly concerning adaptability, scalability, and lifecycle integration in cloud-based or distributed architectures.
+
 \begin{itemize}
-    \item \textbf{State of Charge (SOC):} Accurate assessment of battery cell capacity, which is reflected in the SOH, ensures timely replacement. Cell health (SOH) is evaluated by comparing initial and current capacity. The SOC is crucial for the SOH calculation\cite{energies-13-01811-v2}. Joint estimation of SOH and SOC is crucial, with capacity-based and resistance-based SOH estimation processes playing a significant role in updating SOC estimation\cite{energies-13-01811-v2}.
-    \item \textbf{Remaining Useful Life (RUL):} SOH estimation is a precondition for estimating the battery's remaining useful life (RUL)\cite{wevj-12-00120-v2}. While some studies focus on RUL separately, most combine RUL and SOH, where SOH is predicted first, followed by RUL based on the SOH\cite{batteries-10-00181-v2}.
+    \item \textbf{Limited Representation of Degradation Phenomena:} Battery aging is governed by a complex interplay of environmental and usage factors, including temperature variation, depth of discharge, cycling intensity, and microstructural changes within electrodes. Semi-empirical models often simplify or omit such detailed dynamics, which can lead to underestimation of degradation during specific operating phases, such as early-cycle structural transitions in electrode materials.
+    
+    \item \textbf{Lack of Continuous Validation and Feedback:} These models typically do not incorporate systematic validation mechanisms that compare predicted SOH against experimental or test-bench benchmarks. The absence of automated feedback loops hinders performance monitoring and error correction over time, ultimately reducing the trust and transparency required for critical systems.
+    
+    \item \textbf{Poor Integration with MLOps and Cloud Infrastructures:} Traditional semi-empirical frameworks were not developed with modern deployment practices in mind. They lack compatibility with Machine Learning Operations (MLOps) pipelines, which support automated model retraining, deployment, and monitoring. This architectural gap makes it difficult to scale such models across cloud environments or distributed battery systems that rely on real-time data ingestion and continuous updates.
+    
+    \item \textbf{Scalability and Computational Bottlenecks:} While semi-empirical models are suitable for embedded or low-resource contexts, extending their use to cloud-scale applications, where large datasets must be processed concurrently, demands significant architectural enhancements. Their current form does not readily support distributed computing or modular scaling.
 \end{itemize}
 
-Factors affecting SOH:
-The SOH of a lithium-ion battery is influenced by various factors that lead to degradation, including:
+\subsection*{Identified Research Gaps in SOH Estimation Frameworks}
+
+Recent literature reveals several persistent challenges in the lifecycle management of semi-empirical models, particularly when applied to cloud-based or large-scale deployments. These gaps highlight the need for more adaptable and scalable frameworks for State of Health (SOH) estimation:
+
 \begin{itemize}
-    \item \textbf{Operating Conditions:} Current, temperature, depth of discharge (DOD), and state of charge (SOC) significantly impact battery aging\cite{energies-18-00342-v2}.
-    \item \textbf{Cycling:} Charge and discharge cycles cause battery capacity to diminish over time, a process called degradation\cite{electronics-13-01675}\cite{batteries-10-00181-v2}. Overcharge and excessive discharge cycles negatively affect the SOH of batteries[]. Higher DOD often leads to greater internal resistances\cite{energies-18-00342-v2}. Cycling at very low (<25\%) or very high SOC (>90\%) can lead to more rapid degradation compared to moderate SOCs\cite{energies-18-00342-v2}. Temperature has a significant impact on performance degradation regardless of the electrode material\cite{energies-18-00342-v2}.
-    \item \textbf{Calendar aging:} Degradation also occurs over time even when the battery is not actively used\cite{energies-18-00342-v2}.
-    \item \textbf{Material Degradation:} Changes in battery electrodes and electrolytes contribute to the decline in SOH\cite{energies-18-00342-v2}.
+    \item \textbf{Insufficient Real-Time Processing Capability:} Although many data-driven approaches have been explored for SOH estimation, most are constrained to offline processing workflows. This limitation restricts their applicability in time-sensitive environments where real-time predictions are essential. Studies on edge-cloud collaboration indicate that current fusion models are often computationally intensive and fail to meet the latency requirements of dynamic, real-world systems.
+    
+    \item \textbf{Lack of Integration with Modern MLOps Pipelines:} Existing semi-empirical models are not readily compatible with Machine Learning Operations (MLOps) infrastructures, which are critical for automating deployment, monitoring, retraining, and validation in production environments. The absence of such integration impedes continuous model adaptation and undermines the robustness of SOH estimation in evolving operational contexts.
+    
+    \item \textbf{Limited Support for Hybrid and Multi-Scenario Modeling:} Battery applications vary widely across domains, from electric vehicles to grid storage and consumer electronics, each with distinct degradation behaviors and performance requirements. Current modeling approaches are often domain-specific and do not support flexible fusion of semi-empirical and data-driven techniques. There is a growing need for hybrid frameworks that can generalize across use cases while preserving accuracy and computational efficiency.
 \end{itemize}
 
-As SOH estimation cannot be measured directly during normal operation that is, one cannot easily measure full capacity without fully discharging the battery. A variety of estimation techniques have been developed. There are three primary caegories of methods for estimating the SOH of lithium-ion batteries: model-based methods, datadriven methods, and hybrid (fusion) methods\cite{wevj-12-00113}. 
-\begin{itemize}
-    \item \textbf{Electrochemical Model-Based Estimation:} These approaches use physics-based electrochemical models of the battery to predict aging behavior. These methods rely on understanding the degradation  and failure mechanisms of lithium-ion batteries to estimate and predict SOH. These methods typically involve developing mathematical models that describe the battery's internal electrochemical and physical processes \cite{electronics-13-01675}\cite{s41598-025-92262-8}. The accuracy of the SOH estimation depends on how well the model's key parameters represent the internal aging of the battery \cite{wevj-12-00113}. Model-based methods for battery analysis offer several advantages, including their ability to provide detailed explanations of discharge behavior and underlying degradation mechanisms, with electrochemical models yielding valuable insights into the battery's internal state, while equivalent circuit models (ECMs) stand out for their simplicity and strong engineering practicality \cite{electronics-13-01675}\cite{wevj-12-00113}. However, these methods also face notable drawbacks, such as the complexity of many models, which involve numerous parameters that are challenging to identify accurately, and the susceptibility of ECM parameter accuracy to environmental changes, resulting in fluctuating outcomes and accumulating errors \cite{electronics-13-01675}\cite{wevj-12-00113}. Additionally, these approaches often incur high computational costs, restricting their use in real-time applications, and exhibit weak anti-interference capabilities in practical settings, where achieving high accuracy remains difficult. Furthermore, ECMs may overlook subtle factors influencing state-of-health (SOH) attenuation and fail to comprehensively address complex external stress variations, limiting their overall effectiveness \cite{electronics-13-01675}\cite{wevj-12-00113}.
-    \item \textbf{Empirical Model-Based Estimation:} Empirical or equivalent-circuit models (ECM) are widely used in practice due to their simplicity \cite{energies-13-02825-v2}. In this method the battery is modeled as an electric circuit (combinations of voltage sources, resistors, capacitors) that imitates the battery's charge/discharge behavior. Agiging of the battery is reflected when there are changes in the model parameters. For instance, the battery's open circuit voltage curve, internal resistance or capacitance values. By tracking how these parameters drift over time, the BMS can infer SOH. Some of the generally used techniques involve estimation via filtering: the BMS uses algorithms like Kalman filters to recursively update model parameters (e.g., internal resistance increasing with age) based on measurements \cite{wevj-12-00113}. For example, an Extended Kalman Filter (EKF) or Unscented Kalman Filter (UKF) can be employed to jointly estimate the battery’s SOC and capacity (treating capacity as an unknown parameter that slowly changes) \cite{wevj-12-00113}. Empirical models are computationally lightweight and can be tuned to cell data, which is why most commercial BMS rely on them \cite{energies-13-02825-v2}. Their drawback is that they may not capture all failure modes; they rely on the assumption that past observed trends (e.g. capacity fade vs. cycle count) will continue, which might not hold under new conditions.
-    \item \textbf{Data-Driven Methods:} Data-driven methods estimate SOH by analyzing data generated during battery operation, such as voltage, current, temperature, and charge-discharge duration, using artificial intelligence or statistical models \cite{wevj-12-00113}\cite{energies-13-01811-v2}\cite{electronics-13-01675}\cite{energies-13-02825-v2}.\\ These are often referred to as "black-box" models because they do not necessarily require an understanding of the internal physical or chemical reactions within the battery \cite{electronics-13-01675}. The relationship between measured parameters and SOH is learned from historical data \cite{wevj-12-00113}\cite{electronics-13-01675}. However, data-driven methods typically need large datasets of battery aging under various conditions for training, and their extrapolation beyond the training domain is not guaranteed. Ensuring robustness and interpretability of purely data-driven SOH estimates (especially in safety-critical applications like EVs) remains an area of active research.
-    \item \textbf{Hybrid (fusion) Methods:}\cite{electronics-13-01675}\cite{energies-13-01811-v2} Hybrid (fusion) methods combine two or more different SOH estimation techniques, often integrating model-based and data-driven approaches, to improve accuracy, robustness, and reliability \cite{wevj-12-00113}. The aim is to leverage the strengths of different methods while compensating for their individual limitations.
-\end{itemize}
+
+\section{Problem Statement}
+
+Although accurate estimation of the State of Health (SOH) is vital for the safe and efficient operation of lithium-ion batteries, most existing semi-empirical models exhibit significant limitations when applied in practical, real-world settings. These models typically depend on fixed parameters calibrated under controlled conditions, making them ill-suited to dynamically evolving operational environments. As usage conditions deviate from the calibration baseline, the model's predictive accuracy deteriorates, leading to cumulative estimation errors that require manual recalibration.
+
+Furthermore, conventional semi-empirical models cannot account for nuanced degradation factors, such as the compounded effects of variable loading patterns, temperature fluctuations, and intermittent stress cycles. This lack of granularity results in oversimplified degradation profiles and reduces the models' ability to provide reliable long-term predictions.
+
+An additional challenge lies in the absence of integrated validation mechanisms. Without real-time or automated alignment between model predictions and laboratory-based test-bench measurements, it becomes difficult to assess or improve the accuracy and credibility of the SOH estimations. These limitations affect model interpretability and hinder scalability and deployment in cloud-based platforms or across heterogeneous battery fleets.
+
 
 \section{Motivation}
-In this research we consider the semi-empirical model, which balances the computational efficiency and physics-based interpretability with respect to its optimization, scalability and lifecycle management. Though semi-empirical model balances computational efficiency and physics based modeling, they suffer from several key limitations that affect their reliability in dynamic operating environments. The following challenges motivate the need for an enhanced framework:
+This research examines the semi-empirical model, which balances computational efficiency and physics-based interpretability, enhancing optimization, scalability, and lifecycle management. Though semi-empirical model balance computational efficiency and physics-based modeling, they suffer from several key limitations that affect their reliability in dynamic operating environments. The following challenges motivate the need for an enhanced framework:
 \begin{itemize}
-    \item Semi-empirical models rely on fixed parameter sets, assuming gradual degradation behavior using historical data
-    \item Assumption that battery degradation is influenced only by temperature variations, depth of discharge (DOD), charge/discharge cycles, and internal resistance.
-    \item Fixed-parameter models do not adapt to real-world variations, leading to increasing SOH estimation errors over time.
-    \item Existing semi-empirical models lack an automated feedback loop mechanism to validate SOH predictions against the test bench data.
-    \item Model errors may accumulate over time, requiring manual recalibration.
-    \item Current approaches manually tune correction factors for SOH estimation
-    \item Semi-empirical models are not designed for cloud based inference.
-    \item No real-time SOH monitoring framework exists for fleet-wide battery system.
+    \item Semi-empirical models rely on fixed parameter sets, assuming gradual degradation behavior using historical data.
+    \item Existing semi-empirical models use static parameters and lack automated feedback or drift monitoring mechanisms.
+    \item Without validation against test bench data, estimation errors accumulate over time, requiring manual recalibration.
+    \item These models are not designed to integrate seamlessly into MLOps-like architectures, which hinders scalability for fleet-wide or automated deployments.
     \item No structured validation pipeline is in place for tracking model performance over time.
 \end{itemize}
 
 \section{Objectives}
-The primary objective of this research is to develop an automated, scalable, and adaptive SOH estimation framework that overcomes the limitations of traditional semi-empirical models. Specifically, this research aims to:
+The primary objective of this research is to develop an automated, scalable, and adaptive framework for estimating State of Health (SOH) that overcomes the limitations of traditional semi-empirical models. Specifically, this research aims to:
 \begin{itemize}
-    \item Design an adaptive SOH estimation model to compute the correction factor that updates SOH estimates without modifying the base model equations.
-    \item Ensure real-time correction of SOH deviations observed in current SOH semi-empirical model.
-    \item Develop an automated validation framework that continuously compares SOH estimates against equivalent test bench conditions.
-    \item Implement filtering mechanism to refine transient fluctuations and sensor noise in corrected SOH predictions. 
-    \item Develop an equivalent condition mapping strategy that aligns real-world SOH estimates with comparable test bench conditions.
-    \item Use statistical trend matching to validate relative degradation rates instead of absolute SOH values.
+    \item Design an optimization model to compute the correction factor that updates SOH estimates without modifying the base semi-empirical model equations.
+    \item Ensure real-time correction of SOH deviations observed in the current SOH semi-empirical model.
+    \item Develop an automated validation framework that continuously compares SOH estimates of a semi-empirical model against equivalent test bench conditions.
+    \item Design a generalizable MLOps-like framework for deploying, validating, and maintaining semi-empirical or numerical models.
 \end{itemize}
 
 \section{Structure of the Thesis}
 This thesis is structured as follows:
 \begin{itemize}
-    \item \textbf{Chapter \ref{chap:grundlagen}: Fundamentals and Related Work} provides an overview of current semi-empirical SOH model, explore various correction methods, filtering approaches, and cloud-scale life-cycle management architecture.
-    \item \textbf{Chapter \ref{chap:main}: My Contribution} details the design and implementation of the NMOps framework, including MHE and EKF integration.
-    \item \textbf{Chapter \ref{chap:eval}: Experimental Evaluation} presents validation experiments comparing corrected SOH with test bench ground truth and analyzes hyperparameter tuning efficiency.
+    \item \textbf{Chapter \ref{chap:grundlagen}: Fundamentals and Related Work} provides an overview of the current semi-empirical SOH model, explores various correction methods, filtering approaches, hyperparameter tuning, error metrics, and cloud-scale life-cycle management architecture.
+    \item \textbf{Chapter \ref{chap:main}: My Contribution} details the requirements, design, and implementation of the NMOps framework, Moving Horizon Estimation, and our algorithm, Multi-Horizon Correction Algorithm.
+    \item \textbf{Chapter \ref{chap:eval}: Experimental Evaluation} presents validation experiments comparing corrected SOH with test bench ground truth and analyzes the results on various battery datasets.
     \item \textbf{Chapter \ref{chap:concl}: Conclusion} summarizes key findings and discusses future research directions, including Neural ODE/PDE-based SOH modeling.
 \end{itemize}
